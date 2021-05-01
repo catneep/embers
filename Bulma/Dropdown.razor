@@ -1,6 +1,6 @@
 @inherits ToggableComponent
 
-<div class="dropdown @Status" @onclick="toggleState" @onfocusout="toggleState">
+<div class="dropdown @Status" @onclick="toggleState">
   <div class="dropdown-trigger">
     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
       <span>
@@ -17,13 +17,13 @@
       @foreach (var item in Options)
       {
         if (item.Selected){
-          <p class="dropdown-item is-active" @onclick=@(() => setSelected(item))>
-            @item
-          </p>
+          <div class="dropdown-item is-active">
+            @item.Name
+          </div>
         } else {
-          <p class="dropdown-item" @onclick=@(() => setSelected(item))>
-            @item
-          </p>
+          <div class="dropdown-item" @onclick="(() => setSelected(item))">
+            @item.Name
+          </div>
         }
       }
     </div>
@@ -48,11 +48,17 @@
     }
   }
   private async Task setSelected(_item item){
+    foreach (var i in Options)
+    {
+      i.Selected = false;
+    }
+
     Index = Items.IndexOf(item.Name);
     Placeholder = item.Name;
     item.Selected = true;
-    await toggleState();
     StateHasChanged();
+
+    await Task.Delay(1);
   }
 
 }
