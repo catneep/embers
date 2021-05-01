@@ -1,0 +1,99 @@
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+  <a class="pagination-previous">Previous</a>
+  <a class="pagination-next">Next page</a>
+  <ul class="pagination-list">
+    @foreach (var index in displayedPages)
+    {
+      <li>
+        @if (index > 0){
+          if (index == CurrentIndex){
+            <a href="#" class="pagination-link is-current" aria-label="Go to @RootLocation @index" aria-current="page">
+              @index
+            </a>
+          } else {
+            <a href="@(RootLocation + index)" class="pagination-link" aria-label="Go to @(RootLocation + index)">
+              @index
+            </a>
+          }
+        } else {
+          <li>
+            <span class="pagination-ellipsis">&hellip;</span>
+          </li>
+        }
+      </li>
+    }
+  </ul>
+</nav>
+
+@code{
+  [Parameter] public int PageCount {get; set;}
+  [Parameter] public int CurrentIndex {get; set;} = 1;
+  [Parameter] public string RootLocation {
+    get
+    {
+      return this.RootLocation;
+    } set
+    {
+      this.RootLocation = $"/{value}/";
+    }
+  }
+  private int[] displayedPages;
+
+  protected override void OnInitialized()
+  {
+    if (PageCount <= 5){
+      displayedPages = new int[PageCount];
+      for(int i = 0; i < PageCount; i++){
+        displayedPages[i] = i + 1;
+      }
+    }
+    else
+      displayedPages = displayedIndexes(CurrentIndex, PageCount);
+  }
+  private int[] getNeighbours(int i){
+    return new int[]{(i - 1), (i + 1)};
+  }
+  private int[] displayedIndexes(int currentIndex, int max){
+    List<int> result = new List<int>();
+    
+    int[] neighbours = getNeighbours(currentIndex);
+
+    if (neighbours[0] == 0)
+      currentIndex++;
+    if (neighbours[1] >= max)
+      currentIndex--;
+    neighbours = getNeighbours(currentIndex);
+
+    result.Add(1);
+
+    for (int i = 0; i < 2; i++){
+      if (result.Contains(neighbours[i])){
+        if (!result.Contains(currentIndex))
+          result.Add(currentIndex);
+        continue;
+      }
+      
+      switch (i){
+        case 0:
+          if ((neighbours[i] - 1) >= 2){
+            result.Add(-1);
+          }
+          result.Add(neighbours[i]);
+          result.Add(currentIndex);
+          break;
+        case 1:
+          if ((max - neighbours[i]) >= 2){
+            result.Add(neighbours[i]);
+            result.Add(-1);
+          } else
+            result.Add(neighbours[i]);
+          break;
+      }
+    }
+
+    if (!result.Contains(max))
+      result.Add(max);
+
+    return result.ToArray();
+  }
+}

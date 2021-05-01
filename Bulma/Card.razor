@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-image">
+    <figure class="image is-4by3">
+      <img src="@Image" alt="@Title card image">
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="media">
+      <div class="media-content">
+        <p class="title is-4">
+          @Title
+        </p>
+        @if (Subtitle == null){
+          <p class="subtitle is-6">
+            @Subtitle
+          </p>
+        }
+      </div>
+    </div>
+
+    <div class="content">
+      @ChildContent
+    </div>
+  </div>
+</div>
+
+@code{
+  [Parameter] public string Title {get; set;}
+  [Parameter] public string Subtitle {get; set;} = null;
+  [Parameter] public RenderFragment ChildContent {get; set;}
+  [Parameter] public string Image {get; set;} = "https://bulma.io/images/placeholders/1280x960.png";
+}

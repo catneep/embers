@@ -1,0 +1,16 @@
+@inherits ToggableComponent
+<div class="modal @Status">
+  <div class="modal-background" @onclick="toggleState"></div>
+  <div class="modal-content">
+    @ChildContent
+  </div>
+  <button class="modal-close is-large" aria-label="Close" @onclick="toggleState">
+  </button>
+</div>
+
+@code{
+  [Parameter] public RenderFragment ChildContent {get; set;}
+  public async void makeVisible(){
+    await toggleState();
+  }
+}

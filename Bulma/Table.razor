@@ -1,0 +1,47 @@
+@inherits StyledComponent
+
+<table class="table @Class">
+  <thead>
+    <tr>
+      @foreach (var title in Headers)
+      {
+        <th>@title</th>
+      }
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      @foreach (var title in Headers)
+      {
+        <th>@title</th>
+      }
+    </tr>
+  </tfoot>
+
+  <tbody>
+    @foreach (var row in Rows)
+    {
+      <tr>
+        @for (int i = 0; i < row.Length; i++){
+          <td>
+            @row[i]
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
+
+@code{
+  [Parameter] public string[] Headers {get; set;}
+  [Parameter] public List<string[]> Rows {get; set;}
+  protected override void OnInitialized()
+  {
+    for (int i = 0; i < Rows.Count; i++){
+      if (Headers.Length != Rows[i].Length){
+        throw new Exception($"Inconsistent data lengths for table. (Row: {i})");
+      }
+    }
+  }
+
+}

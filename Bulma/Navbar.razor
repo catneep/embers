@@ -1,0 +1,41 @@
+@inherits ToggableComponent
+<nav class="navbar @Class" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      @Logo
+    </a>
+
+    <a role="button" class="navbar-burger @Status" aria-label="menu" aria-expanded="false" data-target="navbarbasic" @onclick="toggleState" @onfocusout="toggleState">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarbasic" class="navbar-menu @Status">
+    <div class="navbar-start">
+      
+      @if (Links != null) foreach (var item in Links)
+      {
+        <a class="navbar-item" href="@item[1]">
+          @item[0]
+        </a>
+      }
+
+    </div>
+
+    @if (End != null){
+      <div class="navbar-end">
+        <div class="navbar-item">
+            @End
+        </div>
+      </div>
+    }
+  </div>
+</nav>
+
+@code{
+  [Parameter] public RenderFragment Logo {get; set;}
+  [Parameter] public RenderFragment End {get; set;} = null;
+  [Parameter] public List<string[]> Links {get; set;}
+}
