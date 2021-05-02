@@ -7,18 +7,16 @@
       <li>
         @if (index > 0){
           if (index == CurrentIndex){
-            <a href="#" class="pagination-link is-current" aria-label="Go to @RootLocation @index" aria-current="page">
+            <a href="#" class="pagination-link is-current" aria-label="Current Page" aria-current="page">
               @index
             </a>
           } else {
-            <a href="@(RootLocation + index)" class="pagination-link" aria-label="Go to @(RootLocation + index)">
+            <a href='@($"/{RootLocation}/{index}")' class="pagination-link" aria-label="Go to @(RootLocation + index)">
               @index
             </a>
           }
         } else {
-          <li>
-            <span class="pagination-ellipsis">&hellip;</span>
-          </li>
+          <span class="pagination-ellipsis">&hellip;</span>
         }
       </li>
     }
@@ -28,15 +26,7 @@
 @code{
   [Parameter] public int PageCount {get; set;}
   [Parameter] public int CurrentIndex {get; set;} = 1;
-  [Parameter] public string RootLocation {
-    get
-    {
-      return this.RootLocation;
-    } set
-    {
-      this.RootLocation = $"/{value}/";
-    }
-  }
+  [Parameter] public string RootLocation { get; set;}
   private int[] displayedPages;
 
   protected override void OnInitialized()
