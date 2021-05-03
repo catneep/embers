@@ -1,19 +1,19 @@
 @inherits StyledComponent
 
-<nav class="breadcrumb" aria-label="breadcrumbs">
+<nav class="breadcrumb @Class" aria-label="breadcrumbs">
   <ul>
     @foreach (var item in _items)
     {
       if (@item.Active){
         <li class="is-active">
           <a href="#" aria-current="page">
-            @item.Name;
+            @item.Name
           </a>
         </li>
       } else {
         <li>
           <a href="@item.URL">
-            @item.Name;
+            @item.Name
           </a>
         </li>
       }
@@ -29,13 +29,8 @@
   }
   [Parameter] public List<string[]> Locations {get; set;}
   private List<_item> _items;
-
-  private string Style;
-
   protected override void OnInitialized()
   {
-    Style = "breadcrumb";
-    Style += Class;
 
     _items = new List<_item>();
     foreach (var item in Locations)
