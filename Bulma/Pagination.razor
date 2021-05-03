@@ -1,13 +1,14 @@
-<nav class="pagination is-centered" role="navigation" aria-label="pagination">
-  <a class="pagination-previous">Previous</a>
-  <a class="pagination-next">Next page</a>
+@inherits StyledComponent
+<nav class="pagination @Class" role="navigation" aria-label="pagination">
+  <a class="pagination-previous" href='@($"/{RootLocation}/{CurrentIndex - 1}")'>@Tags[0]</a>
+  <a class="pagination-next" href='@($"/{RootLocation}/{CurrentIndex + 1}")'>@Tags[1]</a>
   <ul class="pagination-list">
     @foreach (var index in displayedPages)
     {
       <li>
         @if (index > 0){
           if (index == CurrentIndex){
-            <a href="#" class="pagination-link is-current" aria-label="Current Page" aria-current="page">
+            <a href='@($"/{RootLocation}/{index}/#")' class="pagination-link is-current" aria-label="Current Page" aria-current="page">
               @index
             </a>
           } else {
@@ -27,6 +28,7 @@
   [Parameter] public int PageCount {get; set;}
   [Parameter] public int CurrentIndex {get; set;} = 1;
   [Parameter] public string RootLocation { get; set;}
+  [Parameter] public string[] Tags {get; set;} = new string[]{"Previous","Next"};
   private int[] displayedPages;
 
   protected override void OnInitialized()
