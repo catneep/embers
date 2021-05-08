@@ -1,0 +1,25 @@
+@inherits StyledComponent
+<article class="message @Class">
+  @if (Header == null){
+    <div class="message-header">
+      @Header
+      <button
+        class="delete"
+        aria-label="delete"
+        @onclick="(() => hide())"
+      ></button>
+    </div>
+  }
+  <div class="message-body">
+    @ChildContent
+  </div>
+</article>
+
+@code{
+  [Parameter] public string Header {get; set;}
+  [Parameter] public RenderFragment ChildContent {get; set;}
+  public void hide(){
+    Class += " is-hidden";
+    StateHasChanged();
+  }
+}
