@@ -1,0 +1,26 @@
+@inherits StyledComponent
+<div class="tabs @Class">
+  <ul>
+    @foreach (var item in Locations)
+    {
+      if (Locations.IndexOf(item) == SelectedIndex){
+          <li class="is-active">
+            <a href="@item[1]">
+              @item[0]
+            </a>
+          </li>
+      } else {
+        <li>
+          <a href="@item[1]">
+            @item[0]
+          </a>
+        </li>
+      }
+    }
+  </ul>
+</div>
+
+@code{
+  [Parameter] public List<string[]> Locations {get; set;}
+  [Parameter] public int SelectedIndex {get; set;}
+}
