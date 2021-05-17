@@ -17,7 +17,7 @@
       
       @if (Links != null) foreach (var item in Links)
       {
-        <a class="navbar-item" href="@item[1]">
+        <a class="navbar-item" href="@item[1]" @onfocusout:stopPropagation="true">
           @item[0]
         </a>
       }

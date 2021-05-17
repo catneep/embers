@@ -17,11 +17,11 @@
       @foreach (var item in Options)
       {
         if (item.Selected){
-          <div class="dropdown-item is-active">
+          <div class="dropdown-item is-active" @onfocusout:stopPropagation="true">
             @item.Name
           </div>
         } else {
-          <div class="dropdown-item" @onclick="(() => setSelected(item))">
+          <div class="dropdown-item" @onclick="(() => setSelected(item))" @onfocusout:stopPropagation="true">
             @item.Name
           </div>
         }
